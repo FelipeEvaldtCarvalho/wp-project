@@ -11,9 +11,12 @@
     "axios": "^1.1.3",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-next-select": "^2.10.4",
+    "vue-router": "^4.0.3",
+    "vue-select": "^4.0.0-beta.5"
   },
   "devDependencies": {
+    "@types/node": "18.8.0",
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
