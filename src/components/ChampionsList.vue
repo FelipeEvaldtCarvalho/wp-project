@@ -4,38 +4,13 @@
       <h2>ESCOLHA SEU</h2>
       <h1>CAMPEÃO</h1>
     </div>
-    <div class="search-container">
-      <div class="search">
-        <ion-icon class="search-icon" name="search"></ion-icon>
-        <vSelect
-          :deselectFromDropdown="true"
-          :options="lists.all.data"
-          label="name"
-          placeholder="Pesquisar"
-          @option:deselected="setInicialChampionsToShow"
-          @update:modelValue="setChampionsToShowBySelect($event)"
-        >
-          <template v-slot:no-options="{ search, searching }">
-            <template v-if="searching">
-              Campeão <em>{{ search }}</em> não encontrado.
-            </template>
-          </template>
-        </vSelect>
-      </div>
-      <div class="functions-list">
-        <p
-          v-for="list in lists"
-          v-bind:key="list.id"
-          v-on:click="changeChampionsToShow(list)"
-          :class="{
-            active: checkSelectedList(list.data),
-            inactive: !checkSelectedList(list.data),
-          }"
-        >
-          {{ list.label }}
-        </p>
-      </div>
-    </div>
+    <SearchChampions
+      :functionLists="lists"
+      v-on:atualList="teste"
+      v-on:clear="setInicialChampionsToShow"
+      v-on:changeChampionsList="changeChampionsToShow"
+      :listOnShow="championsToShow"
+    />
     <div class="champions-container">
       <div
         class="champion-card"
@@ -55,14 +30,14 @@
 </template>
 <script>
 import axios from "axios";
-import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import SearchChampions from "./SearchChampions.vue";
 export default {
   name: "ChampionsList",
-  components: { vSelect },
+  components: { SearchChampions },
   data() {
     return {
-      valueteste: "",
+      arrLists: [],
       lists: {
         all: {
           label: "Todos",
@@ -120,6 +95,15 @@ export default {
       }
       this.lists.all.data = arr;
     },
+    arrayChampionsList() {
+      let arr = [];
+      for (let key in this.lists) {
+        if (Object.prototype.hasOwnProperty.call(this.lists, key)) {
+          arr.push(this.lists[key]);
+        }
+      }
+      this.arrLists = arr;
+    },
     correctionInChampionId() {
       this.lists.all.data.map((element) => {
         if (element.id == "Fiddlesticks") {
@@ -168,6 +152,13 @@ export default {
     setChampionsToShowBySelect(e) {
       this.championsToShow = e ? [e] : this.lists.all.data;
     },
+    setChampionsByFunctionToShowBySelect(e) {
+      this.changeChampionsToShow(e);
+      console.log(e);
+    },
+    teste(champ) {
+      this.championsToShow = champ;
+    },
   },
   async created() {
     this.championsData = await this.getChampionsData();
@@ -176,6 +167,7 @@ export default {
     this.correctionInChampionId();
     this.setFunctionsLists();
     this.setInicialChampionsToShow();
+    this.arrayChampionsList();
   },
 };
 </script>
@@ -209,6 +201,7 @@ section {
   background-color: #fff;
   border: 3px #adadad solid;
   height: 3rem;
+  position: relative;
 }
 .search-icon {
   position: absolute;
@@ -223,6 +216,9 @@ section {
   width: 200px;
   height: 100%;
 }
+.functions-list-mobile {
+  display: none;
+}
 .functions-list {
   display: flex;
   height: 100%;
@@ -232,46 +228,6 @@ section {
   gap: 5%;
   padding-right: 5%;
   border-left: #adadad 3px solid;
-}
-.inactive {
-  display: inline-flex;
-  height: 100%;
-  vertical-align: middle;
-  cursor: pointer;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  vertical-align: middle;
-}
-.inactive:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 4px;
-  bottom: 0;
-  left: 0;
-  background-color: #ffde59;
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-}
-.active {
-  display: inline-flex;
-  height: 100%;
-  vertical-align: middle;
-  cursor: pointer;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  vertical-align: middle;
-  border-bottom: 4px solid #ffde59;
-  border-top: 4px solid transparent;
-}
-.inactive:hover:after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
 }
 .champions-container {
   display: flex;
@@ -286,6 +242,7 @@ section {
   flex: 1 1 18%;
   max-width: 18%;
   height: 30vw;
+  cursor: pointer;
 }
 .champion-card img {
   display: block;
@@ -300,35 +257,10 @@ section {
   background-color: #2d2d2d;
   color: #fff;
   height: 4rem;
+  transition: 0.5s;
 }
-.search >>> .vs__dropdown-toggle {
-  border: none;
-  height: 100%;
-}
-.search >>> .v-select {
-  height: 100%;
-}
-.search >>> .vs__dropdown-option--highlight {
-  color: #2d2d2d;
-  background-color: #ffde59;
-}
-.search >>> .vs__open-indicator {
-  fill: #2d2d2d;
-}
-.search >>> input {
-  padding-left: 2rem;
-}
-.search >>> .vs__selected {
-  padding-left: 2rem;
-}
-.search >>> input::placeholder {
-  color: #adadad;
-}
-@media screen and (max-width: 1185px) {
-  .functions-list {
-    gap: 2%;
-    padding-right: 2%;
-  }
+.champion-card:hover .champion-name {
+  background-color: #545454;
 }
 @media screen and (max-width: 930px) {
   section {
@@ -337,5 +269,63 @@ section {
   }
 }
 @media screen and (max-width: 890px) {
+  .champion-card {
+    flex: 1 1 22%;
+    max-width: 22%;
+    height: 38vw;
+  }
+  .champion-name h3 {
+    font-size: 1rem;
+    color: #fff;
+  }
+}
+@media screen and (max-width: 580px) {
+  .champion-card {
+    flex: 1 1 47%;
+    max-width: 47%;
+    height: 70vw;
+  }
+  .champion-name h3 {
+    font-size: 1rem;
+    color: #fff;
+  }
+  .page-title h1 {
+    font-size: 4rem;
+  }
+  .page-title h2 {
+    font-size: 1.5rem;
+  }
+}
+@media screen and (max-width: 415px) {
+  section {
+    padding: 1.5rem;
+    padding-top: 20vh;
+  }
+  .champions-container {
+    gap: 10px;
+  }
+  .champion-card {
+    flex: 1 1 47%;
+    max-width: 47%;
+    height: 70vw;
+  }
+  .champion-name h3 {
+    font-size: 1rem;
+    color: #fff;
+  }
+  .page-title h1 {
+    font-size: 3rem;
+  }
+  .page-title h2 {
+    font-size: 1.3rem;
+  }
+  .champion-name h3 {
+    font-size: 0.8rem;
+    color: #fff;
+  }
+  .champion-name {
+    padding-left: 1rem;
+    height: 3rem;
+  }
 }
 </style>

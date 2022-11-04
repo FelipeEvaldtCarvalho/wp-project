@@ -57,7 +57,7 @@ export default {
   methods: {
     getFreeChampionIds() {
       let freeChampionIds = axios.get(
-        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-d8e64ad9-27be-43d5-b919-159cd212ff58`
+        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-b9034acc-de62-45c6-a195-2a63cc63381e`
       );
       return freeChampionIds;
     },
