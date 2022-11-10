@@ -222,6 +222,7 @@ nav {
   border: 3px #adadad solid;
   height: 3rem;
   position: relative;
+  z-index: 20;
 }
 .search {
   position: relative;
@@ -260,6 +261,7 @@ nav {
 .functions-list {
   display: flex;
   height: 100%;
+  font-weight: 700;
   width: calc(100% - 200px);
   justify-content: flex-end;
   align-items: center;

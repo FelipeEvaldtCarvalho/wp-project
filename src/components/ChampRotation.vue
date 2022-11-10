@@ -6,7 +6,7 @@
         <div class="atual-champ-text">
           <h1 class="champ-name">{{ selectedChampion.name }}</h1>
           <h2>{{ selectedChampion.title }}</h2>
-          <div class="champ-function">
+          <div class="champ-function subtitle">
             <h2>{{ selectedChampionTag }}</h2>
             <span class="function-icon">
               <img :src="selectedChampionTagImg" />
@@ -14,7 +14,9 @@
           </div>
           <p class="champ-lore">{{ selectedChampion.blurb }}</p>
           <div class="btn-container">
-            <router-link class="btn" to="/about">Saiba mais</router-link>
+            <router-link class="btn" :to="`/champion/${selectedChampion.id}`"
+              >Saiba mais</router-link
+            >
           </div>
         </div>
         <div class="atual-champ-img" id="atual-champ-img">
@@ -57,7 +59,7 @@ export default {
   methods: {
     getFreeChampionIds() {
       let freeChampionIds = axios.get(
-        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-b9034acc-de62-45c6-a195-2a63cc63381e`
+        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-5ff080a3-bb80-4a8e-b69f-86a4c37df084`
       );
       return freeChampionIds;
     },
@@ -163,6 +165,15 @@ section {
   width: 50%;
   padding: 0 2rem;
 }
+.atual-champ-text h2 {
+  font-weight: 400;
+}
+.subtitle {
+  margin-top: 1rem;
+}
+.subtitle h2 {
+  font-weight: 800;
+}
 .champ-name {
   display: inline-block;
   font-size: 3rem;
@@ -221,8 +232,8 @@ section {
 }
 .champ-function {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .champ-function img {
   height: 2.2rem;
@@ -237,7 +248,7 @@ section {
   border-radius: 50%;
 }
 .champ-lore {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .btn {
   color: #000;
@@ -304,9 +315,6 @@ section {
   }
   h2 {
     font-size: 1.5rem;
-  }
-  .champ-function {
-    gap: 0.7rem;
   }
   .champ-function img {
     height: 2rem;

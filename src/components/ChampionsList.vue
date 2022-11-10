@@ -17,13 +17,15 @@
         v-for="champion in championsToShow"
         v-bind:key="champion.id"
       >
-        <img
-          :src="`https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${champion.id}_0.jpg`"
-          alt=""
-        />
-        <span class="champion-name">
-          <h3>{{ champion.name }}</h3>
-        </span>
+        <router-link :to="`/champion/${champion.id}`" class="logo">
+          <img
+            :src="`https://ddragon.leagueoflegends.com/cdn/img/champion/centered/${champion.id}_0.jpg`"
+            alt=""
+          />
+          <span class="champion-name">
+            <h3>{{ champion.name }}</h3>
+          </span>
+        </router-link>
       </div>
     </div>
   </section>
@@ -243,14 +245,23 @@ section {
   max-width: 18%;
   height: 30vw;
   cursor: pointer;
+  overflow: hidden;
 }
 .champion-card img {
   display: block;
   width: 100%;
   height: calc(100% - 4rem);
   object-fit: cover;
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  z-index: 2;
+}
+.champion-card:hover img {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 .champion-name {
+  position: relative;
   display: flex;
   align-items: center;
   padding-left: 1.5rem;
@@ -258,6 +269,7 @@ section {
   color: #fff;
   height: 4rem;
   transition: 0.5s;
+  z-index: 10;
 }
 .champion-card:hover .champion-name {
   background-color: #545454;
