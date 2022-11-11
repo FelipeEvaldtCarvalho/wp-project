@@ -156,7 +156,7 @@ section {
 }
 .image-container {
   width: 100%;
-  height: 70vh;
+  height: 100%;
   position: relative;
   display: flex;
   background-color: #1e1e1e;
