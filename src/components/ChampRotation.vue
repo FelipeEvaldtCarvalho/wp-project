@@ -54,12 +54,13 @@ export default {
       selectedChampion: {},
       selectedChampionTag: "",
       selectedChampionTagImg: "",
+      apiKey: process.env.VUE_APP_API_KEY,
     };
   },
   methods: {
     getFreeChampionIds() {
       let freeChampionIds = axios.get(
-        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-5ff080a3-bb80-4a8e-b69f-86a4c37df084`
+        `https://br1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${this.apiKey}`
       );
       return freeChampionIds;
     },
