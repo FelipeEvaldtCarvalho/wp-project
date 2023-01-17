@@ -30,6 +30,11 @@ const routes = [
     component: () => import("../views/RunesView.vue"),
   },
   {
+    path: "/spells",
+    name: "spells",
+    component: () => import("../views/SummonerSpellView.vue"),
+  },
+  {
     path: "/building",
     name: "building",
     // route level code-splitting

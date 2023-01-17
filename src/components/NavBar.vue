@@ -9,7 +9,7 @@
     <div class="menu">
       <router-link to="/champions">CAMPEÕES</router-link>
       <router-link to="/building">RUNAS</router-link>
-      <router-link to="/building">FEITIÇOS</router-link>
+      <router-link to="/spells">FEITIÇOS</router-link>
       <router-link to="/building">ITENS</router-link>
       <router-link to="/building">MAPA</router-link>
     </div>
@@ -24,7 +24,7 @@
         <router-link v-on:click="menuMobile = false" to="/building"
           >RUNAS</router-link
         >
-        <router-link v-on:click="menuMobile = false" to="/building"
+        <router-link v-on:click="menuMobile = false" to="/spells"
           >FEITIÇOS</router-link
         >
         <router-link v-on:click="menuMobile = false" to="/building"

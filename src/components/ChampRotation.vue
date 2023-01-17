@@ -66,7 +66,7 @@ export default {
     },
     getChampionsData() {
       let ChampionsData = axios.get(
-        "http://ddragon.leagueoflegends.com/cdn/12.20.1/data/pt_BR/champion.json"
+        "http://ddragon.leagueoflegends.com/cdn/12.21.1/data/pt_BR/champion.json"
       );
       return ChampionsData;
     },
